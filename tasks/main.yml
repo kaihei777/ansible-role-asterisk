@@ -14,7 +14,7 @@
 - name: git_clone
   git:
     repo: "https://gerrit.asterisk.org/asterisk"
-    dest: "/usr/src"
+    dest: "/usr/src/asterisk"
     version: "{{ asterisk_version }}"
     force: yes
     update: yes
