@@ -13,7 +13,7 @@
 
 - name: git_clone
   git:
-    repo: "https://gerrit.asterisk.org/asterisk"
+    repo: "https://github.com/asterisk/asterisk.git"
     dest: "/usr/src/asterisk"
     version: "{{ asterisk_version }}"
     force: yes
