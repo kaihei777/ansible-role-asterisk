@@ -4,7 +4,7 @@
 - name: yum -y update
   yum:
     name: "*"
-    state: latest
+    state: present
 
 - name: yum group-install
   yum:
