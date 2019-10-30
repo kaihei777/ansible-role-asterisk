@@ -2,9 +2,11 @@
 # tasks file for ansible-role-asterisk
 
 - name: yum -y update
-  yum: name=* state=latest
+  yum:
+    name: *
+    state: latest
 
 - name: yum group-install
-  yum: name="{{ item }}" state=present
-  with_items:
-    - "@Development Tools"
+  yum:
+    name: ['@Development Tools']
+    state: present
