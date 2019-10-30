@@ -3,7 +3,7 @@
 
 - name: yum -y update
   yum:
-    name: *
+    name: "*"
     state: latest
 
 - name: yum group-install
