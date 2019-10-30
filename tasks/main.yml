@@ -10,3 +10,11 @@
   yum:
     name: ['@Development Tools']
     state: present
+
+- name: git_clone
+  git:
+    repo: "https://gerrit.asterisk.org/asterisk"
+    dest: "/usr/src"
+    version: "{{ asterisk_version }}"
+    force: yes
+    update: yes
