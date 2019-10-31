@@ -11,16 +11,16 @@
 #     name: ['@Development Tools']
 #     state: present
 
-# - name: install requirements packages
-#   yum:
-#     name: "{{ packages }}"
-#   vars:
-#     packages:
+- name: install requirements packages
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libuuid-devel
 #       - glibc-devel
 #       - ncurses-devel
 #       - openssl-devel
 #       - zlib-devel
-#       - libuuid-devel
 #       - sqlite-devel
 #       - libxml2-devel
 
