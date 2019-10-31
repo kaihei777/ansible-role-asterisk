@@ -11,6 +11,16 @@
     name: ['@Development Tools']
     state: present
 
+- name: install requirements packages
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - glibc-devel
+      - ncurses-devel
+      - openssl-devel
+      - zlib-devel
+
 - name: git_clone
   git:
     repo: "https://github.com/asterisk/asterisk.git"
