@@ -1,6 +1,6 @@
 galaxy_info:
   author: kaihei777
-  description: install asterisk for AmazonLinux2
+  description: Installs asterisk for AmazonLinux2
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -24,9 +24,9 @@ galaxy_info:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
   platforms:
-  - name: Amazon Linux 2
-    versions:
-      - any
+    - name: Amazon Linux 2
+      versions:
+        - any
 
   galaxy_tags:
     - amazonlinux2
