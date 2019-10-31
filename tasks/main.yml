@@ -55,20 +55,32 @@
       - libxml2-devel
 
 - name: get jansson source file
-  command: chdir={{ src_dir }} wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
+  command: wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
+  args:
+    chdir: "{{ src_dir }}"
+    warn: false
 
 ## janssonのソースインストールを解凍
 - name: get jansson source file
-  command: chdir={{ src_dir }} tar xvf jansson-{{ jansson_version }}.tar.gz
+  command: tar xvf jansson-{{ jansson_version }}.tar.gz
+  args:
+    chdir: "{{ src_dir }}"
+    warn: false
 
 - name: comfigure jansson
-  command: chdir={{ jansson_src_dir }} ./configure
+  command: ./configure
+  args:
+    chdir: "{{ jansson_src_dir }}"
 
 - name: make jansson
-  command: chdir={{ jansson_src_dir }} make
+  command: make
+  args:
+    chdir: "{{ jansson_src_dir }}"
 
 - name: install jansson
-  command: chdir={{ jansson_src_dir }} make install
+  command: make install
+  args:
+    chdir: "{{ jansson_src_dir }}"
 
 - name: git_clone asterisk
   git:
@@ -79,25 +91,39 @@
     update: yes
 
 - name: asterisk install_prereq install
-  command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install
+  command: ./install_prereq install
+  args:
+    chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
-  command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install-unpackaged
+  command: ./install_prereq install-unpackaged
+  args:
+    chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: comfigure asterisk
-  command: chdir={{ asterisk_src_dir }} ./configure
+  command: ./configure
+  args:
+    chdir: "{{ asterisk_src_dir }}"
 
 - name: make asterisk
-  command: chdir={{ asterisk_src_dir }} make
+  command: make
+  args:
+    chdir: "{{ asterisk_src_dir }}"
 
 - name: make samples asterisk
-  command: chdir={{ asterisk_src_dir }} make samples
+  command: make samples
+  args:
+    chdir: "{{ asterisk_src_dir }}"
 
 - name: touch /etc/redhat-release
   command: touch /etc/redhat-release
+  args:
+    warn: false
   when: ansible_facts['distribution'] == "Amazon"
 
 - name: make config asterisk
-  command: chdir={{ asterisk_src_dir }} make config
+  command: make config
+  args:
+    chdir: "{{ asterisk_src_dir }}"
