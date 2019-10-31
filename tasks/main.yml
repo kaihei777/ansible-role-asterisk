@@ -14,7 +14,10 @@
 - name: git_clone
   git:
     repo: "https://github.com/asterisk/asterisk.git"
-    dest: "/usr/src/asterisk"
+    dest: "{{ asterisk_src_dir }}"
     version: "{{ asterisk_version }}"
     force: yes
     update: yes
+
+- name: comfigure asterisk
+  command: chdir={{ asterisk_src_dir }} ./configure
