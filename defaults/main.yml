@@ -1,4 +1,4 @@
 ---
 # defaults file for ansible-role-asterisk
 asterisk_src_dir: /usr/src/asterisk
-asterisk_version: 13
+asterisk_version: "13"
