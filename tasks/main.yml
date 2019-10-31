@@ -64,9 +64,11 @@
 
 - name: asterisk install_prereq install
   command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install
+  when: ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
   command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install-unpackaged
+  when: ansible_facts['distribution'] == "CentOS"
 
 - name: comfigure asterisk
   command: chdir={{ asterisk_src_dir }} ./configure
