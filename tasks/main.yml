@@ -17,12 +17,12 @@
   vars:
     packages:
       - libuuid-devel
+      - libxml2-devel
 #       - glibc-devel
 #       - ncurses-devel
 #       - openssl-devel
 #       - zlib-devel
 #       - sqlite-devel
-#       - libxml2-devel
 
 - name: git_clone
   git:
