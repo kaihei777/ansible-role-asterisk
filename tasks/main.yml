@@ -38,3 +38,9 @@
 
 - name: comfigure asterisk
   command: chdir={{ asterisk_src_dir }} ./configure
+
+- name: make asterisk
+  command: chdir={{ asterisk_src_dir }} make
+
+- name: install asterisk
+  command: chdir={{ asterisk_src_dir }} make install
