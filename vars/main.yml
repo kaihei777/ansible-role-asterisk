@@ -1,2 +1,4 @@
 ---
 # vars file for ansible-role-asterisk
+jansson_src_dir: {{ src_dir }}/jansson-{{ jansson_version }}
+asterisk_src_dir: {{ src_dir }}/asterisk
