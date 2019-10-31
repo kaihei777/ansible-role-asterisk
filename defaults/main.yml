@@ -1,4 +1,6 @@
 ---
 # defaults file for ansible-role-asterisk
+jansson_src_dir: /usr/src/jansson
+jansson_version: "2.11"
 asterisk_src_dir: /usr/src/asterisk
 asterisk_version: "13"

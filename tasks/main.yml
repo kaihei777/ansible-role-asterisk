@@ -49,12 +49,29 @@
   vars:
     packages:
       - libedit-devel
-      - jansson-devel
+      # - jansson-devel # jansson 2.11が必要なのでソースからインストールする
       - libuuid-devel
       - sqlite-devel
       - libxml2-devel
 
-- name: git_clone
+- name: git_clone jansson 2.11
+  git:
+    repo: "https://github.com/akheron/jansson.git"
+    dest: "{{ jansson_src_dir }}"
+    version: "{{ jansson_version }}"
+    force: yes
+    update: yes
+
+- name: comfigure jansson
+  command: chdir={{ jansson_src_dir }} ./configure
+
+- name: make jansson
+  command: chdir={{ jansson_src_dir }} make
+
+- name: install jansson
+  command: chdir={{ jansson_src_dir }} make install
+
+- name: git_clone asterisk
   git:
     repo: "https://github.com/asterisk/asterisk.git"
     dest: "{{ asterisk_src_dir }}"
