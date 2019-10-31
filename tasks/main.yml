@@ -6,20 +6,23 @@
     name: "*"
     state: present
 
-- name: yum group-install
-  yum:
-    name: ['@Development Tools']
-    state: present
+# - name: yum group-install
+#   yum:
+#     name: ['@Development Tools']
+#     state: present
 
-- name: install requirements packages
-  yum:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - glibc-devel
-      - ncurses-devel
-      - openssl-devel
-      - zlib-devel
+# - name: install requirements packages
+#   yum:
+#     name: "{{ packages }}"
+#   vars:
+#     packages:
+#       - glibc-devel
+#       - ncurses-devel
+#       - openssl-devel
+#       - zlib-devel
+#       - libuuid-devel
+#       - sqlite-devel
+#       - libxml2-devel
 
 - name: git_clone
   git:
@@ -28,6 +31,12 @@
     version: "{{ asterisk_version }}"
     force: yes
     update: yes
+
+- name: asterisk install_prereq install
+  command: chdir={{ asterisk_src_dir }}/contrib/scripts/install_prereq install
+
+- name: asterisk install_prereq install-unpackaged
+  command: chdir={{ asterisk_src_dir }}/contrib/scripts/install_prereq install-unpackaged
 
 - name: comfigure asterisk
   command: chdir={{ asterisk_src_dir }} ./configure
