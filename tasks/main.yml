@@ -33,10 +33,10 @@
     update: yes
 
 - name: asterisk install_prereq install
-  command: chdir={{ asterisk_src_dir }}/contrib/scripts/install_prereq install
+  command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install
 
 - name: asterisk install_prereq install-unpackaged
-  command: chdir={{ asterisk_src_dir }}/contrib/scripts/install_prereq install-unpackaged
+  command: chdir={{ asterisk_src_dir }}/contrib/scripts ./install_prereq install-unpackaged
 
 - name: comfigure asterisk
   command: chdir={{ asterisk_src_dir }} ./configure
