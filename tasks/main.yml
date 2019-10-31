@@ -95,5 +95,9 @@
 - name: make samples asterisk
   command: chdir={{ asterisk_src_dir }} make samples
 
+- name: touch /etc/redhat-release
+  command: touch /etc/redhat-release
+  when: ansible_facts['distribution'] == "Amazon"
+
 - name: make config asterisk
   command: chdir={{ asterisk_src_dir }} make config
