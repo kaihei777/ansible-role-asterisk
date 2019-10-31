@@ -8,13 +8,6 @@
     replace: 'priority=99'
   when: ansible_facts['distribution'] == "Amazon"
 
-- name: amzn2-extras.repo priority down
-  replace:
-    path: /etc/yum.repos.d/amzn2-extras.repo
-    regexp: 'priority = 10'
-    replace: 'priority=99'
-  when: ansible_facts['distribution'] == "Amazon"
-
 - name: check exists EPEL
   shell: amazon-linux-extras list | grep epel
   register: epel_check
@@ -24,6 +17,13 @@
 - name: install EPEL when amazon linux
   shell: amazon-linux-extras install -y epel
   when: ansible_facts['distribution'] == "Amazon" and epel_check.rc == 0
+
+- name: amzn2-extras.repo priority down
+  replace:
+    path: /etc/yum.repos.d/amzn2-extras.repo
+    regexp: 'priority = 10'
+    replace: 'priority=99'
+  when: ansible_facts['distribution'] == "Amazon"
 
 - name: install EPEL when other linux
   yum:
