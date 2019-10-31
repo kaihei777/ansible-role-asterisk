@@ -54,13 +54,12 @@
       - sqlite-devel
       - libxml2-devel
 
-- name: git_clone jansson 2.11
-  git:
-    repo: "https://github.com/akheron/jansson.git"
-    dest: "{{ jansson_src_dir }}"
-    version: "{{ jansson_version }}"
-    force: yes
-    update: yes
+- name: get jansson source file
+  command: chdir={{ src_dir }} wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
+
+## janssonのソースインストールを解凍
+- name: get jansson source file
+ command: chdir={{ src_dir }} tar xvf jansson-{{ jansson_version }}.tar.gz
 
 - name: comfigure jansson
   command: chdir={{ jansson_src_dir }} ./configure
