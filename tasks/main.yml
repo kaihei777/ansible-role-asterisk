@@ -59,7 +59,7 @@
 
 ## janssonのソースインストールを解凍
 - name: get jansson source file
- command: chdir={{ src_dir }} tar xvf jansson-{{ jansson_version }}.tar.gz
+  command: chdir={{ src_dir }} tar xvf jansson-{{ jansson_version }}.tar.gz
 
 - name: comfigure jansson
   command: chdir={{ jansson_src_dir }} ./configure
