@@ -3,4 +3,6 @@
 src_dir: /usr/src
 jansson_version: "2.11"
 asterisk_version: "13"
-asterisk_src_dir: /asterisk
+
+jansson_src_dir: "{{ src_dir }}/jansson-{{ jansson_version }}"
+asterisk_src_dir: "{{ src_dir }}/asterisk"
