@@ -6,23 +6,21 @@
     name: "*"
     state: present
 
-# - name: yum group-install
-#   yum:
-#     name: ['@Development Tools']
-#     state: present
+- name: yum group-install
+  yum:
+    name: ['@Development Tools']
+    state: present
 
 - name: install requirements packages
   yum:
     name: "{{ packages }}"
   vars:
     packages:
+      - libedit-devel
+      - jansson-devel
       - libuuid-devel
+      - sqlite-devel
       - libxml2-devel
-#       - glibc-devel
-#       - ncurses-devel
-#       - openssl-devel
-#       - zlib-devel
-#       - sqlite-devel
 
 - name: git_clone
   git:
