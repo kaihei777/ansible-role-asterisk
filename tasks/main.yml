@@ -80,7 +80,6 @@
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when:
     - not asterisk_result1.failed
-    - ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
   command: ./install_prereq install-unpackaged
@@ -88,7 +87,6 @@
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when:
     - not asterisk_result1.failed
-    - ansible_facts['distribution'] == "CentOS"
 
 - name: comfigure asterisk
   command: ./configure
