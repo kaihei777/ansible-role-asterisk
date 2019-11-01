@@ -34,6 +34,9 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+    - name: "Amazon Linux 2"
+      versions:
+        - "any"
 
   galaxy_tags:
     - asterisk
