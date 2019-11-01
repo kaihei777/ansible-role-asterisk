@@ -1,6 +1,6 @@
 galaxy_info:
   author: kaihei777
-  description: Installs the asterisk for RHEL/CentOS
+  description: Installs the asterisk for RHEL/CentOS/AmazonLinux2
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -22,7 +22,7 @@ galaxy_info:
   # this branch. If Travis integration is configured, only notifications for this
   # branch will be accepted. Otherwise, in all cases, the repo's default branch
   # (usually master) will be used.
-  #github_branch:
+  github_branch: master
 
   #
   # Provide a list of supported platforms, and for each platform a list of versions.
