@@ -41,9 +41,7 @@
   command: touch /etc/redhat-release
   args:
     warn: false
-  when:
-    - asterisk_result1|failed
-    - ansible_facts['distribution'] == "Amazon"
+  when: ansible_facts['distribution'] == "Amazon"
 
 - name: yum -y update
   yum:
