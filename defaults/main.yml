@@ -1,7 +1,5 @@
 ---
 # defaults file for ansible-role-asterisk
 src_dir: /usr/src
-
 asterisk_version: "13"
 asterisk_src_dir: "{{ src_dir }}/asterisk"
-
