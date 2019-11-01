@@ -27,7 +27,7 @@
 
 - name: install EPEL when other linux
   yum:
-    name: ['epel-release', '{{ epel_rpm_uri }}']
+    name: epel-release
   register: task_result
   until: task_result is success
   retries: 10
@@ -35,6 +35,15 @@
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_facts['distribution_major_version'] == "7"
+
+# AmazonLinuxの場合は、/etc/redhat-releaseを作成
+- name: touch /etc/redhat-release
+  command: touch /etc/redhat-release
+  args:
+    warn: false
+  when:
+    - asterisk_result1|failed
+    - ansible_facts['distribution'] == "Amazon"
 
 - name: yum -y update
   yum:
@@ -45,70 +54,70 @@
   retries: 10
   delay: 2
 
-- name: yum group-install
-  yum:
-    name: ['@Development Tools']
-    state: present
-  register: task_result
-  until: task_result is success
-  retries: 10
-  delay: 2
+# - name: yum group-install
+#   yum:
+#     name: ['@Development Tools']
+#     state: present
+#   register: task_result
+#   until: task_result is success
+#   retries: 10
+#   delay: 2
 
-- name: install requirements packages
-  yum:
-    name: "{{ packages }}"
-    enablerepo: "epel"
-  vars:
-    packages:
-      - libedit-devel
-      # - jansson-devel # jansson 2.11が必要なのでソースからインストールする
-      - libuuid-devel
-      - sqlite-devel
-      - libxml2-devel
-  register: task_result
-  until: task_result is success
-  retries: 10
-  delay: 2
+# - name: install requirements packages
+#   yum:
+#     name: "{{ packages }}"
+#     enablerepo: "epel"
+#   vars:
+#     packages:
+#       - libedit-devel
+#       # - jansson-devel # jansson 2.11が必要なのでソースからインストールする
+#       - libuuid-devel
+#       - sqlite-devel
+#       - libxml2-devel
+#   register: task_result
+#   until: task_result is success
+#   retries: 10
+#   delay: 2
 
-## emacsのソースファイルを取得済みか確認
-- name: check exist jansson source file
-  command: ls -l {{ src_dir }}/jansson-{{ jansson_version }}.tar.gz
-  ignore_errors: True
-  register: jansson_result1
-  when: jansson_result1 is undefined
+# ## emacsのソースファイルを取得済みか確認
+# - name: check exist jansson source file
+#   command: ls -l {{ src_dir }}/jansson-{{ jansson_version }}.tar.gz
+#   ignore_errors: True
+#   register: jansson_result1
+#   when: jansson_result1 is undefined
 
-- name: get jansson source file
-  command: wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
-  args:
-    chdir: "{{ src_dir }}"
-    warn: false
-  when: jansson_result1|failed
+# - name: get jansson source file
+#   command: wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
+#   args:
+#     chdir: "{{ src_dir }}"
+#     warn: false
+#   when: jansson_result1|failed
 
-## janssonのソースインストールを解凍
-- name: get jansson source file
-  command: tar xvf jansson-{{ jansson_version }}.tar.gz
-  args:
-    chdir: "{{ src_dir }}"
-    warn: false
-  when: jansson_result1|failed
+# ## janssonのソースインストールを解凍
+# - name: get jansson source file
+#   command: tar xvf jansson-{{ jansson_version }}.tar.gz
+#   args:
+#     chdir: "{{ src_dir }}"
+#     warn: false
+#   when: jansson_result1|failed
 
-- name: comfigure jansson
-  command: ./configure
-  args:
-    chdir: "{{ jansson_src_dir }}"
-  when: jansson_result1|failed
+# - name: comfigure jansson
+#   command: ./configure
+#   args:
+#     chdir: "{{ jansson_src_dir }}"
+#   when: jansson_result1|failed
 
-- name: make jansson
-  command: make
-  args:
-    chdir: "{{ jansson_src_dir }}"
-  when: jansson_result1|failed
+# - name: make jansson
+#   command: make
+#   args:
+#     chdir: "{{ jansson_src_dir }}"
+#   when: jansson_result1|failed
 
-- name: install jansson
-  command: make install
-  args:
-    chdir: "{{ jansson_src_dir }}"
-  when: jansson_result1|failed
+# - name: install jansson
+#   command: make install
+#   args:
+#     chdir: "{{ jansson_src_dir }}"
+#   when: jansson_result1|failed
 
 - name: git_clone asterisk
   git:
@@ -153,14 +162,6 @@
   args:
     chdir: "{{ asterisk_src_dir }}"
   when: asterisk_result1|failed
-
-- name: touch /etc/redhat-release
-  command: touch /etc/redhat-release
-  args:
-    warn: false
-  when:
-    - asterisk_result1|failed
-    - ansible_facts['distribution'] == "Amazon"
 
 - name: make config asterisk
   command: make config
