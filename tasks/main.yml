@@ -9,7 +9,9 @@
   when: ansible_facts['distribution'] == "Amazon"
 
 - name: check exists EPEL
-  shell: amazon-linux-extras list | grep epel
+  shell: |
+    set -o pipefail
+    amazon-linux-extras list | grep epel
   register: epel_check
   failed_when: epel_check.rc not in [0,1]
   when: ansible_facts['distribution'] == "Amazon"
