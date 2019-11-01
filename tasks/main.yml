@@ -136,7 +136,7 @@
   args:
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when:
-    - asterisk_result1 is failed
+    - asterisk_result1.failed is false
     - ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
@@ -144,29 +144,33 @@
   args:
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when:
-    - asterisk_result1|failed
+    - asterisk_result1.failed is false
     - ansible_facts['distribution'] == "CentOS"
 
 - name: comfigure asterisk
   command: ./configure
   args:
     chdir: "{{ asterisk_src_dir }}"
-  when: asterisk_result1|failed
+  when:
+    - asterisk_result1.failed is false
 
 - name: make asterisk
   command: make
   args:
     chdir: "{{ asterisk_src_dir }}"
-  when: asterisk_result1|failed
+  when:
+    - asterisk_result1.failed is false
 
 - name: make samples asterisk
   command: make samples
   args:
     chdir: "{{ asterisk_src_dir }}"
-  when: asterisk_result1|failed
+  when:
+    - asterisk_result1.failed is false
 
 - name: make config asterisk
   command: make config
   args:
     chdir: "{{ asterisk_src_dir }}"
-  when: asterisk_result1|failed
+  when:
+    - asterisk_result1.failed is false
