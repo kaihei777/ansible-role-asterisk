@@ -31,7 +31,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: kaihei777.ansible-role-asterisk }
+         - { role: kaihei777.ansible_role_asterisk }
 
 License
 -------
