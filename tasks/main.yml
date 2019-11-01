@@ -127,12 +127,15 @@
   register: asterisk_result1
   when: asterisk_result1 is undefined
 
+- name: debug
+  debug: msg="{{ asterisk_result1 }}"
+
 - name: asterisk install_prereq install
   command: ./install_prereq install
   args:
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
   when:
-    - asterisk_result1|failed
+    - asterisk_result1 is failed
     - ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
