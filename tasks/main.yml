@@ -27,7 +27,7 @@
 
 - name: install EPEL when other linux
   yum:
-    name: ['epel-release','{{ epel_rpm_uri }}']
+    name: ['epel-release', '{{ epel_rpm_uri }}']
   register: task_result
   until: task_result is success
   retries: 10
