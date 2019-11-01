@@ -124,6 +124,7 @@
     version: "{{ asterisk_version }}"
     force: yes
     update: yes
+  ignore_errors: True
   register: asterisk_result1
   when: asterisk_result1 is undefined
 
