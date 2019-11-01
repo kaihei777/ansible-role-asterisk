@@ -15,7 +15,7 @@
   when: ansible_facts['distribution'] == "Amazon"
 
 - name: install EPEL when amazon linux
-  shell: amazon-linux-extras install -y epel
+  command: amazon-linux-extras install -y epel
   when: ansible_facts['distribution'] == "Amazon" and epel_check.rc == 0
 
 - name: amzn2-extras.repo priority down
@@ -27,7 +27,11 @@
 
 - name: install EPEL when other linux
   yum:
-    name: ['epel-release','https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm']
+    name: ['epel-release','{{ epel_rpm_uri }}']
+  register: task_result
+  until: task_result is success
+  retries: 10
+  delay: 2
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_facts['distribution_major_version'] == "7"
@@ -36,11 +40,19 @@
   yum:
     name: "*"
     state: present
+  register: task_result
+  until: task_result is success
+  retries: 10
+  delay: 2
 
 - name: yum group-install
   yum:
     name: ['@Development Tools']
     state: present
+  register: task_result
+  until: task_result is success
+  retries: 10
+  delay: 2
 
 - name: install requirements packages
   yum:
@@ -53,12 +65,24 @@
       - libuuid-devel
       - sqlite-devel
       - libxml2-devel
+  register: task_result
+  until: task_result is success
+  retries: 10
+  delay: 2
+
+## emacsのソースファイルを取得済みか確認
+- name: check exist jansson source file
+  command: ls -l {{ src_dir }}/jansson-{{ jansson_version }}.tar.gz
+  ignore_errors: True
+  register: jansson_result1
+  when: jansson_result1 is undefined
 
 - name: get jansson source file
   command: wget http://www.digip.org/jansson/releases/jansson-{{ jansson_version }}.tar.gz
   args:
     chdir: "{{ src_dir }}"
     warn: false
+  when: jansson_result1|failed
 
 ## janssonのソースインストールを解凍
 - name: get jansson source file
@@ -66,21 +90,25 @@
   args:
     chdir: "{{ src_dir }}"
     warn: false
+  when: jansson_result1|failed
 
 - name: comfigure jansson
   command: ./configure
   args:
     chdir: "{{ jansson_src_dir }}"
+  when: jansson_result1|failed
 
 - name: make jansson
   command: make
   args:
     chdir: "{{ jansson_src_dir }}"
+  when: jansson_result1|failed
 
 - name: install jansson
   command: make install
   args:
     chdir: "{{ jansson_src_dir }}"
+  when: jansson_result1|failed
 
 - name: git_clone asterisk
   git:
@@ -89,41 +117,53 @@
     version: "{{ asterisk_version }}"
     force: yes
     update: yes
+  register: asterisk_result1
+  when: asterisk_result1 is undefined
 
 - name: asterisk install_prereq install
   command: ./install_prereq install
   args:
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
-  when: ansible_facts['distribution'] == "CentOS"
+  when:
+    - asterisk_result1|failed
+    - ansible_facts['distribution'] == "CentOS"
 
 - name: asterisk install_prereq install-unpackaged
   command: ./install_prereq install-unpackaged
   args:
     chdir: "{{ asterisk_src_dir }}/contrib/scripts"
-  when: ansible_facts['distribution'] == "CentOS"
+  when:
+    - asterisk_result1|failed
+    - ansible_facts['distribution'] == "CentOS"
 
 - name: comfigure asterisk
   command: ./configure
   args:
     chdir: "{{ asterisk_src_dir }}"
+  when: asterisk_result1|failed
 
 - name: make asterisk
   command: make
   args:
     chdir: "{{ asterisk_src_dir }}"
+  when: asterisk_result1|failed
 
 - name: make samples asterisk
   command: make samples
   args:
     chdir: "{{ asterisk_src_dir }}"
+  when: asterisk_result1|failed
 
 - name: touch /etc/redhat-release
   command: touch /etc/redhat-release
   args:
     warn: false
-  when: ansible_facts['distribution'] == "Amazon"
+  when:
+    - asterisk_result1|failed
+    - ansible_facts['distribution'] == "Amazon"
 
 - name: make config asterisk
   command: make config
   args:
     chdir: "{{ asterisk_src_dir }}"
+  when: asterisk_result1|failed
