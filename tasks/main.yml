@@ -161,6 +161,13 @@
   when:
     - not asterisk_result1.failed
 
+- name: install asterisk
+  command: make install
+  args:
+    chdir: "{{ asterisk_src_dir }}"
+  when:
+    - not asterisk_result1.failed
+
 - name: make samples asterisk
   command: make samples
   args:
