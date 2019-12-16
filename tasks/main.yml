@@ -131,10 +131,7 @@
     dest: "{{ src_dir }}"
 
 - name: Unarchive FreePBX
-  unarchive:
-    src: "{{ src_dir }}/freepbx-13.0-latest.tgz"
-    dest: "{{ freepbx_src_dir }}"
-    remote_src: yes
+  command: tar -zxvf "{{ src_dir }}/freepbx-13.0-latest.tgz" -C "{{ freepbx_src_dir }}"
 
 - name: start asterisk
   command: ./start_asterisk start
