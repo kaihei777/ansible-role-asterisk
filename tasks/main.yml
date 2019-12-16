@@ -140,8 +140,12 @@
   command: ./start_asterisk start
   args:
     chdir: "{{ freepbx_src_dir }}/freepbx"
+  when:
+    - not asterisk_result1.failed
 
 - name: install FreePBX
   command: ./install -n
   args:
     chdir: "{{ freepbx_src_dir }}/freepbx"
+  when:
+    - not asterisk_result1.failed
