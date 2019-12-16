@@ -3,3 +3,4 @@
 src_dir: /usr/src
 asterisk_version: "13"
 asterisk_src_dir: "{{ src_dir }}/asterisk"
+freepbx_src_dir: "{{ src_dir }}/freepbx"
