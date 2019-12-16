@@ -133,19 +133,19 @@
 - name: Unarchive FreePBX
   unarchive:
     src: "{{ src_dir }}/freepbx-13.0-latest.tgz"
-    dest: "{{ freepbx_src_dir }}/freepbx"
-    copy: no
+    dest: "{{ freepbx_src_dir }}"
+    remote_src: yes
 
 - name: start asterisk
   command: ./start_asterisk start
   args:
-    chdir: "{{ freepbx_src_dir }}/freepbx"
+    chdir: "{{ freepbx_src_dir }}"
   when:
     - not asterisk_result1.failed
 
 - name: install FreePBX
   command: ./install -n
   args:
-    chdir: "{{ freepbx_src_dir }}/freepbx"
+    chdir: "{{ freepbx_src_dir }}"
   when:
     - not asterisk_result1.failed
