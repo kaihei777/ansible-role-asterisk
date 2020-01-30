@@ -1,3 +1,5 @@
+image: webdevops/ansible
+
 before_script:
   - pip install ansible ansible-lint docker-py
 
